@@ -1,0 +1,4 @@
+easy_admin:
+    design:
+        assets:
+            - 'https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.0/lux/bootstrap.min.css'
