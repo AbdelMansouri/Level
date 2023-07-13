@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace client
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="mt-5 pt-5 mb-3 text-center h3 text-lowercase fw-normal">Bienvenue dans votre espace client,
+			<span class="text-perso h1">{{ membre.nom }}
+				{{ membre.prenom }}</span>!</h1>
+
+		<div class="mb-4 pb-5 text-center">
+			<a href="{{ path("shop") }}" class="btn btn-primary">Continuer le shopping</a>
+			<a href="{{ path("app_logout") }}" class="btn btn-danger">Se déconnecter</a>
+		</div>
+
+		<div class="row mt-4">
+
+			<div class="col-md-6 mx-auto mb-4">
+				<div class="card">
+					<div class="card-header h4 p-3 bg-primary text-white text-lowercase fw-normal">
+						Vos informations personnelles
+					</div>
+					<div class="card-body">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<strong class="fw-bold">Civilité:</strong>
+								{{ membre.civilite == 'H' ? 'Homme' : 'Femme' }}
+							</li>
+							<li class="list-group-item">
+								<strong class="fw-bold">Nom:</strong>
+								{{ membre.nom }}
+							</li>
+							<li class="list-group-item">
+								<strong class="fw-bold">Prénom:</strong>
+								{{ membre.prenom }}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 mx-auto mb-4">
+				<div class="card">
+					<div class="card-header h4 p-3 bg-primary text-white text-lowercase fw-normal">
+						Votre compte
+					</div>
+					<div class="card-body">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<strong class="fw-bold">Email:</strong>
+								{{ membre.email }}
+							</li>
+							<li class="list-group-item">
+								<strong class="fw-bold">Mot de passe:</strong>
+								*****
+							</li>
+							<li class="list-group-item">
+								<strong class="fw-bold">Date d'enregistrement:</strong>
+								{{ membre.dateEnregistrement|date('d/m/Y') }}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 mt-5 mb-5">
+				<div class="card">
+					<div class="card-header h4 p-3 bg-primary text-white text-lowercase fw-normal">
+						Historique des commandes
+						<span class="smaller text-perso">(Nombre de commande :{{ commandesCount }})</span>
+					</div>
+					<div class="card-body">
+						{% if commandesCount > 0 %}
+							<ul class="list-group">
+								{% for commande in commandes %}
+									<li class="list-group-item">
+										<div class="d-flex justify-content-between align-items-center">
+											<div>
+												Commande n°{{ commande.id }}
+											</div>
+											<div>
+												Date:
+												{{ commande.dateEnregistrement|date('d/m/Y') }}
+											</div>
+											<div>
+												Montant:
+												{{ commande.montant }}€
+											</div>
+											<div>
+												État:
+												{{ commande.etat }}
+											</div>
+										</div>
+									</li>
+								{% endfor %}
+							</ul>
+						{% else %}
+							<p>Aucune commande passée.</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

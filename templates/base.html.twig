@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>⚫️</text></svg>">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.0/lux/bootstrap.min.css" integrity="sha512-y8FEi13Ei8XUC5ic67kqCHwidC5PeXw/lXwRy/FODGI3bk/uxDi1fgviJEmuRj1Y8NUynlbOmZjo5TJTHqfiiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+		<link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
+		</head>
+
+
+		<body>
+			{% if is_homepage is not defined  %}
+				<div id="nav-separator"></div>
+			{% endif %}
+			<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light {% if is_homepage is defined and is_homepage %}homepage-navbar{% endif %}" id="navbar" data-bs-theme="light">
+				<div class="container-fluid">
+					<a class="navbar-brand ms-5 me-auto z-high" id="brand" href="{{ path("home") }}"><span>Level.</span></a>
+					{# Navigation personalisée (panier, compte) #}
+					<div class="z-high">
+						<ul class="nav-icon navbar-nav ms-auto z-high">
+							<li class="nav-item">
+								<a class="nav-link position-relative" href="{% if app.user %} {{ path('user') }} {% else %} {{ path('app_login') }} {% endif %}" role="button">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person" viewbox="0 0 16 16">
+										<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+									</svg>
+									{% if app.user %}
+										<span class="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-perso">
+											&#10003;
+											<span class="visually-hidden">Utilisateur connecté</span>
+										</span>
+									{% endif %}
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_cart') }}" role="button">
+									<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart essaie-svg" viewbox="0 0 16 16">
+										<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+									</svg>
+									{% if app.session.get('qt') > 0 %}
+										<span class="position-absolute top-25 start-25 translate-middle badge rounded-pill bg-perso">
+											{{ app.session.get('qt') }}
+										</span>
+									{% endif %}
+								</a>
+							</li>
+							<li>
+								<button class="navbar-toggler btn-light border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+									<span class="navbar-toggler-icon"></span>
+								</button>
+							</li>
+						</ul>
+					</div>
+
+
+					{# Navigation principale #}
+					<div class="collapse navbar-collapse" id="navbarColor02">
+						<ul class="navbar-nav nav-center">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path("home") }}">Accueil</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path("shop") }}">Boutique</a>
+							</li>
+							{% if is_granted('ROLE_ADMIN') %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{ path('admin') }}">Back Office</a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+
+				</div>
+			</nav>
+
+			{% block body %}{% endblock %}
+
+			<footer class="mt-5" id="footer">
+				<div class="container-fluid bg-light">
+					<div class="row row-cols-1 row-cols-md-3 d-flex justify-content-center py-5 max-vw">
+						<div class="col-md-3 my-auto">
+							<h3>Level.</h3>
+						</div>
+						<div class="col-md-3 my-auto">
+							<h5 class="mb-3">Liens rapides :</h5>
+							<ul class="p-0">
+								<li class="mb-2">Contact</li>
+								<li class="mb-2">Politique de confidentialité</li>
+								<li class="mb-2">Politique de rembourement</li>
+								<li class="mb-2">Mentions légales</li>
+							</ul>
+						</div>
+						<div class="col-md-3 my-auto">
+							<div class="d-flex mb-3">
+								<input type="email" class="form-control" placeholder="E-mail" aria-label="Recipient's username" aria-describedby="button-addon2">
+								<button class="btn btn-perso rounded-0" type="button" id="button-addon2">S'inscrire</button>
+							</div>
+							<p class="smaller">
+								En renseignant votre adresse email, vous acceptez de recevoir chaque semaine nos offres commerciales par courrier électronique et vous prenez connaissance de notre Politique de confidentialité. Vous pouvez vous désinscrire à tout moment à l'aide des liens de désinscription ou en nous contactant à l'adresse contact@contact.com.
+							</p>
+						</div>
+					</div>
+					<div>
+						<p class="text-center copyright">Copyright &#xa9 2023 - Mansouri Abdel</p>
+					</div>
+				</div>
+			</footer>
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+			<script src="{{ asset('assets/js/javascript.js') }}"></script>
+		</body>
+	</html>

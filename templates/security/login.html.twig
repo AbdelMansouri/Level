@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Level - Connexion
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="col-lg-6 mx-auto mt-5 min-vh">
+			<form method="post">
+				{% if app.user %}
+					<div class="d-flex flex-column mb-3 justify-content-center align-items-center mt-nav min-vh">
+						<p>Vous êtes identifié en tant que
+							{{ app.user.userIdentifier }}</p>
+						<div class="">
+							<a href="{{ path('home') }}" class="btn btn-primary">
+								Accueil</a>
+							<a href="{{ path('app_logout') }}" class="btn btn-danger">Deconnexion</a>
+						</div>
+					</div>
+				{% else %}
+					<h1 class="">Connexion</h1>
+					{% if error %}
+						<div class="m-0 p-0 text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+					<label for="inputEmail">Adresse email</label>
+					<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+					<label for="inputPassword" class="mt-3">Mot de passe</label>
+					<input type="password" name="password" id="inputPassword" class="form-control mb-2" autocomplete="current-password" required>
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+					<div class="d-flex align-items-center justify-content-between">
+						<button class="btn btn-primary my-4" type="submit">
+							S'identifier
+						</button>
+						<div class="d-flex align-items-center">
+							<p class="m-0 me-3">Pas encore inscrit(e) ?</p>
+							<a href="{{ path("app_register") }}" class="btn btn-perso btn-sm">Inscrivez-vous</a>
+						</div>
+					</div>
+					<div class="text-center">
+						<div class="divider mt-4 mb-3 text-muted w-50 mx-auto">
+							<span>ou</span>
+						</div>
+						<a href="{{ path("shop") }}" class="text-muted">Continuez votre shopping</a>
+					</div>
+				{% endif %}
+			</form>
+		</div>
+	</div>
+{% endblock %}
