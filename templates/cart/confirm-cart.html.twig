@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Level - Confimation de commande
+{% endblock %}
+
+{% block body %}
+	<div class="min-vh d-flex flex-column justify-content-center align-items-center">
+		<h1 class="text-center mb-5">Votre commande est confirmée, elle sera traitée prochainement par nos équipes</h1>
+		<div class="gx-5">
+			<a href="{{ path('user') }}" class="btn btn-perso">Suivi de commande</a>
+			<a href="{{ path('shop') }}" class="btn btn-primary">Continuer votre shopping</a>
+		</div>
+	</div>
+{% endblock %}

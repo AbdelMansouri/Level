@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Level - Shop
+{% endblock %}
+
+{% block body %}
+	<section id="shop">
+		<h1 class="text-center mt-5 mb-2">Collection
+			{% if app.request.get('collection') %}
+				{{ app.request.get('collection')|capitalize == 'H' ? 'Homme' : 'Femme' }}
+			{% endif %}
+		</h1>
+		<div class="container">
+			<div class="row">
+				{% for produit in produits %}
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 my-5">
+						<div class="card h-100 border-0 shadow-none custom-card w-100">
+							<a href="{{ path('product_details', {id: produit.id}) }}">
+								<img src="{{ asset('assets/upload/' ~ produit.photo) }}" class="card-img-top rounded-0 mb-3 img-fluid imgF" alt="...">
+							</a>
+							<h3 class="card-title m-0 h6 text-black">{{ produit.titre }}</h3>
+							<div class="card-body d-flex flex-column p-0">
+								<small class="text-body-secondary mt-auto">{{ produit.collection == 'h' ? 'Homme' : 'Femme' }}</small>
+								<small class="text-body-primary mt-auto">{{ produit.prix }}€</small>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+{% endblock %}

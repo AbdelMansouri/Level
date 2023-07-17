@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier
+{% endblock %}
+
+{% block body %}
+	<div class="container min-vh">
+		{% if items %}
+			<h1 class="my-5 text-center">Votre panier</h1>
+			<div class="row  mb-5 pb-5 position-relative">
+				{% for item in items %}
+					<div class="col-xl-9">
+						<div class="card mb-3">
+							<div class="row g-0">
+								<div class="col-xl-2">
+									<img src="{{ asset('assets/upload/' ~ item.product.photo) }}" class="img-fluid" alt="Photo du produit {{ item.product.titre }}">
+								</div>
+								<div class="col-xl-10 custom-grid py-5">
+									<div class="col-xl-4 text-center">
+										<a href="{{ path('product_details', {'id': item.product.id}) }}" class="card-title text-black fw-bold text-decoration-none">{{ item.product.titre }}</a>
+										<p>{{ item.product.collection == 'h' ? 'Homme' : 'Femme' }}</p>
+									</div>
+									<div class="col-xl-2 text-center mb-3">
+										<a href="{{ path('cart_decrease', {'id': item.product.id}) }}" class="btn btn-sm btn-quantity">-</a>
+										<span class="text-black mx-1">{{ item.quantity }}</span>
+										<a href="{{ path('cart_increase', {'id': item.product.id}) }}" class="btn btn-sm btn-quantity">+</a>
+									</div>
+									<div class="col-xl-2 text-center">
+										<p>Prix:
+											{{ item.product.prix * item.quantity }}€</p>
+									</div>
+									<div class="col-xl-2 text-center">
+										<a href="{{ path('cart_remove', {'id': item.product.id}) }}" class="btn btn-sm btn-primary">Supprimer</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+
+
+				<div class="col-xl-3" id="resume">
+					<div class="card ">
+						<div class="card-body">
+							<h5 class="card-title">Résumé</h5>
+							<p class="my-3">{{ quantity }}
+								produits</p>
+							<hr>
+							<div class="my-3 d-flex justify-content-between">
+								<span>Total :</span>
+								<span class="fw-bold text-black bigger">{{ total }}€</span>
+							</div>
+							<hr>
+							<a href="{{ path('cart_checkout') }}" class="btn btn-perso w-100">Commander</a>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		{% else %}
+			<div class="min-vh d-flex flex-column justify-content-center align-items-center">
+				<h1 class="text-center mb-5">Il n'y a aucun article dans votre panier pour le moment</h1>
+				<div class="gx-5">
+					{% if not app.user %}
+						<a href="{{ path('app_login') }}" class="btn btn-perso">Se connecter</a>
+					{% endif %}
+					<a href="{{ path('shop') }}" class="btn btn-primary">Continuer votre shopping</a>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
